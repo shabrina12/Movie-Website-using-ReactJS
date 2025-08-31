@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Search from './components/Search'
 import Spinner from './components/Spinner';
 import MovieCard from './components/MovieCard';
 import { useDebounce } from 'react-use';
-import { getTrendingMovies, updateSearchCount } from './appwrite';
+import { getTrendingMovies, updateSearchCount } from './appwrite.js';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -13,7 +13,7 @@ const API_OPTIONS = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: `Bearer ${API_KEY}`
+    Authorization: `Bearer ${API_KEY}`,
   }
 }
 
@@ -33,19 +33,20 @@ const App = () => {
     setErrorMessage('');
 
     try {
-      const endpoint = query 
-      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-      : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query
+        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       
       const response = await fetch(endpoint, API_OPTIONS);
-      
+      console.log("Final endpoint:", endpoint);
+
       if(!response.ok) {
         throw new Error('Failed to fetch movies');
       }
 
       const data = await response.json();
       
-      if(data.response == 'false') {
+      if(data.Response === 'False') {
         setErrorMessage(data.Error || 'Failed to fetch movies');
         setMovieList([]);
         return;
@@ -58,10 +59,7 @@ const App = () => {
       }
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
-      console.log(import.meta.env.VITE_TMDB_API_KEY);
-      console.log(import.meta.env.VITE_APPWRITE_PROJECT_ID);
-      console.log(import.meta.env.VITE_APPRWRITE_DATABASE_ID);
-      console.log(import.meta.env.VITE_APPWRITE_COLLECTION_ID);
+      console.log(API_KEY);
       setErrorMessage('Error fetching movies. Please try again later');
     } finally {
       setIsLoading(false);
