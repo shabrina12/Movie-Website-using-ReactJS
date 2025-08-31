@@ -32,10 +32,6 @@ const App = () => {
     setIsLoading(true);
     setErrorMessage('');
 
-    const endpoint = query
-      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-      : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
-
     try {
       const endpoint = query
         ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
@@ -63,7 +59,6 @@ const App = () => {
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
       console.log(API_KEY);
-      console.log("Final endpoint:", endpoint);
       setErrorMessage('Error fetching movies. Please try again later');
     } finally {
       setIsLoading(false);
