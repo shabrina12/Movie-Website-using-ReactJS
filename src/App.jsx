@@ -58,6 +58,10 @@ const App = () => {
       }
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
+      console.log(import.meta.env.VITE_TMDB_API_KEY);
+      console.log(import.meta.env.VITE_APPWRITE_PROJECT_ID);
+      console.log(import.meta.env.VITE_APPRWRITE_DATABASE_ID);
+      console.log(import.meta.env.VITE_APPWRITE_COLLECTION_ID);
       setErrorMessage('Error fetching movies. Please try again later');
     } finally {
       setIsLoading(false);
