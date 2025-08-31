@@ -28,9 +28,13 @@ const App = () => {
   //Debounce the search term to prevent making too many API requests by waiting for the user to stop typing for 500ms
   useDebounce(() => setDebounceSearchTerm(searchTerm), 500, [searchTerm]); 
 
-  const fetchMovies = async( query = '') => {
+  const fetchMovies = async(query = '') => {
     setIsLoading(true);
     setErrorMessage('');
+
+    const endpoint = query
+      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+      : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
     try {
       const endpoint = query
@@ -38,7 +42,6 @@ const App = () => {
         : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       
       const response = await fetch(endpoint, API_OPTIONS);
-      console.log("Final endpoint:", endpoint);
 
       if(!response.ok) {
         throw new Error('Failed to fetch movies');
@@ -60,6 +63,7 @@ const App = () => {
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
       console.log(API_KEY);
+      console.log("Final endpoint:", endpoint);
       setErrorMessage('Error fetching movies. Please try again later');
     } finally {
       setIsLoading(false);
