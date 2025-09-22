@@ -50,8 +50,8 @@ function Horror() {
 
   return (
     <div className='pt-16'>
-      <div className="relative w-full h-screen -mt-[10%]">
-        <img className="w-full h-[95%] object-cover" src='./horror-bg.jpg' alt='Horror Banner'></img>
+      <div className="relative w-full h-screen xs:-mt-[15%] md:-mt-[10%] xl:-mt-[5%]">
+        <img className="w-full h-full object-cover" src='./horror-bg.jpg' alt='Horror Banner'></img>
       </div>
 
       <div className="absolute inset-0 flex flex-col items-center justify-center">
