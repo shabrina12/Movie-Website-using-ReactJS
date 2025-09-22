@@ -49,16 +49,25 @@ function Adventure() {
     }, []);
 
     return (
-      <div className="px-5 pt-16 xs:p-10 max-w-7xl mx-auto">
-        <section className='all-movies'>
-          <h2>Adventure Movies</h2>
+      <div className='pt-16'>
+      <div className="relative w-full h-screen xs:-mt-[15%] md:-mt-[10%] xl:-mt-[5%]">
+        <img className="w-full h-full object-cover" src='./adventure2.jpg' alt='Adventure Banner'></img>
+      </div>
 
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <h2 className="text-8xl">Adventure</h2>
+        <p className="text-4xl text-white">Movies</p>
+      </div>
+
+      <div className="px-5 py-12 xs:p-10">
+        <section className='all-movies'>
           <ul>
             {adventureMovies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </ul>
         </section>
+      </div>
       </div>
     )
 }
