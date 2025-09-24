@@ -51,7 +51,7 @@ function Adventure() {
     return (
       <div className='pt-16'>
       <div className="relative w-full h-screen xs:-mt-[15%] md:-mt-[10%] xl:-mt-[5%]">
-        <img className="w-full h-full object-cover" src='./adventure2.jpg' alt='Adventure Banner'></img>
+        <img className="w-full h-full object-cover" src='./adventure.jpg' alt='Adventure Banner'></img>
       </div>
 
       <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -59,7 +59,7 @@ function Adventure() {
         <p className="text-4xl text-white">Movies</p>
       </div>
 
-      <div className="px-5 py-12 xs:p-10">
+      <div className="px-5 py-12 xs:p-10 mt-8">
         <section className='all-movies'>
           <ul>
             {adventureMovies.map((movie) => (

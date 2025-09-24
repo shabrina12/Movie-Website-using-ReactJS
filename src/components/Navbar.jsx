@@ -1,4 +1,4 @@
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, XIcon, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -64,7 +64,7 @@ const Navbar = () => {
             </ul>
 
             <div className='search-navbar hidden md:flex'>
-                <img src='search.svg' alt='search'  />
+                <Search className="size-6 text-white cursor-pointer"/>
             </div>
         </div>             
         )}    
@@ -86,22 +86,25 @@ const Navbar = () => {
                 ))}
                 </ul>
 
-                <div className='search-navbar flex items-center gap-2'>
+                {/* <div className='search-navbar flex items-center gap-2'>
                     <input placeholder="search movie.." className="w-4/5" />
                     <img src='search.svg' className="size-5" alt='search'  />
-                </div>
+                </div> */}
             </div>
         )}
 
         {/* Mobile Menu Button*/}
+        {!isMenuOpen && (
+            <Search className="flex md:hidden size-6 mr-10 text-white cursor-pointer"/>
+        )}
+
         <button aria-labelledby='Menu Toggle Button' className="block md:hidden fixed top-9 right-10 " onClick={toggleMenu}>
             {isMenuOpen ? (
-                <XIcon className="size-6 text-white" /> 
+                <XIcon className="size-6 text-white cursor-pointer" /> 
             ) : ( 
-                <MenuIcon className="size-6 text-white" /> 
+                <MenuIcon className="size-6 text-white cursor-pointer" /> 
             )}
         </button>
-
     </div>
   )
 }

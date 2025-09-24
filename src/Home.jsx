@@ -129,7 +129,7 @@ const Home = () => {
 
   return (
     <main className='pt-16'>
-      <div className="relative w-full h-screen xs:-mt-[15%] md:-mt-[5%]">
+      <div className="relative w-full h-screen xs:-mt-[15%] md:-mt-[9%] lg:-mt-[7%] xl:-mt-[5%]">
         <Swiper modules={[Navigation, Pagination, Autoplay]}
             navigation={{
               nextEl: ".custom-next",
@@ -170,7 +170,7 @@ const Home = () => {
       <div className='wrapper'>
         {trendingMovies.length > 0 && (
           <section className='trending'>
-            <h2>Trending Movies</h2>
+            <h2>Top Watched Movies</h2>
             <ul>
               {trendingMovies.map((movie, index) => (
                 <li key={movie.$id}>
@@ -181,23 +181,6 @@ const Home = () => {
             </ul>
           </section>
         )} 
-        
-        {latestMovies.length > 0 && (
-          <section className='latest'>
-            <h2>Latest Movies</h2>
-            <ul>
-              {latestMovies.map((movie) => (
-                <li key={movie.id}>
-                  <img 
-                    src={movie.poster_path ? 
-                    `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : '/no-movie.png'} 
-                    alt={movie.title}
-                  />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
 
         <section className='all-movies'>
           <h2>All Movies</h2>

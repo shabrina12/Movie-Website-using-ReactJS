@@ -33,16 +33,16 @@ const Footer = () => {
 
         <div className='social flex gap-5'>
             <div className="bg-gray-800 rounded-full p-3">
-                <FaXTwitter className="size-6" />
+                <FaXTwitter className="size-6 cursor-pointer" />
             </div>
             <div className="bg-gray-800 rounded-full p-3">
-                <FaInstagram className="size-6"/>
+                <FaInstagram className="size-6 cursor-pointer"/>
             </div>
             <div className="bg-gray-800 rounded-full p-3">
-                <FaTiktok className="size-6"/>
+                <FaTiktok className="size-6 cursor-pointer"/>
             </div>
             <div className="bg-gray-800 rounded-full p-3">
-                <FaDiscord className="size-6"/>
+                <FaDiscord className="size-6 cursor-pointer"/>
             </div>
         </div>
 

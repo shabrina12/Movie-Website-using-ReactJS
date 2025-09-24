@@ -59,7 +59,7 @@ const Comedy = () => {
         <p className="text-4xl text-white">Movies</p>
       </div>
 
-      <div className="px-5 py-12 xs:p-10">
+      <div className="px-5 py-12 xs:p-10 mt-8">
         <section className='all-movies'>
           <ul>
             {comedyMovies.map((movie) => (

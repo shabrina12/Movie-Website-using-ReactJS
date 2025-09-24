@@ -18,7 +18,7 @@ const Romance = () => {
 
     const fetchRomanceMovies = async() => {
       try {
-        const endpoint = `${API_BASE_URL}/discover/movie?with_genres=10749&sort_by=popularity.desc`;
+        const endpoint = `${API_BASE_URL}/discover/movie?with_genres=10749&certification_country=US&certification.lte=R&sort_by=popularity.desc`;
         
         const response = await fetch(endpoint, API_OPTIONS);
 
@@ -59,7 +59,7 @@ const Romance = () => {
         <p className="text-4xl text-white">Movies</p>
       </div>
 
-      <div className="px-5 py-12 xs:p-10">
+      <div className="px-5 py-12 xs:p-10 mt-8">
         <section className='all-movies'>
           <ul>
             {romanceMovies.map((movie) => (
