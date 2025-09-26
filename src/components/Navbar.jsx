@@ -1,6 +1,7 @@
 import { MenuIcon, XIcon, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 const NavLinks = [
     {name: 'Horor', path: '/horor'},
@@ -15,9 +16,16 @@ const NavLinks = [
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [term, setTerm] = useState("");
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    }
+
+    function searchOnClick() {
+        if (term.trim() === "") return;  // don’t search empty
+        navigate(`/search?query=${encodeURIComponent(term)}`);
     }
 
     useEffect(() => {
@@ -53,7 +61,7 @@ const Navbar = () => {
                 <Link to="/">HYPER</Link>
             </h2>
 
-            <ul className='hidden md:flex text-white'>
+            <ul className='hidden lg:flex text-white'>
             {NavLinks.map((link) => (
                 <li key={link.name} className='mx-4 cursor-pointer hover:text-gray-500'>
                     <Link to={link.path}>
@@ -63,9 +71,7 @@ const Navbar = () => {
             ))}
             </ul>
 
-            <div className='search-navbar hidden md:flex'>
-                <Search className="size-6 text-white cursor-pointer"/>
-            </div>
+            <SearchBar term={term} setTerm={setTerm} searchOnClick={searchOnClick} />
         </div>             
         )}    
 
@@ -93,12 +99,13 @@ const Navbar = () => {
             </div>
         )}
 
-        {/* Mobile Menu Button*/}
+        {/* Mobile Search Button*/}
         {!isMenuOpen && (
-            <Search className="flex md:hidden size-6 mr-10 text-white cursor-pointer"/>
+            <SearchBar term={term} setTerm={setTerm} searchOnClick={searchOnClick} isMobile />
         )}
 
-        <button aria-labelledby='Menu Toggle Button' className="block md:hidden fixed top-9 right-10 " onClick={toggleMenu}>
+        {/* Mobile Menu Button*/}
+        <button aria-labelledby='Menu Toggle Button' className="block lg:hidden fixed top-9 right-10 " onClick={toggleMenu}>
             {isMenuOpen ? (
                 <XIcon className="size-6 text-white cursor-pointer" /> 
             ) : ( 

@@ -179,6 +179,34 @@
       @apply text-gray-100 font-medium text-base;
     }
   }
+
+  .movie-card-search {
+    @apply text-white flex xs:flex-col md:flex-row xs:gap-2 md:gap-8 w-full h-[300px] xs:mb-18 sm:mb-24 md:mb-14 rounded-xl;
+
+    & img {
+      @apply rounded-xl xs:w-full md:w-1/3 object-cover h-full;
+    }
+
+    & .content {
+      @apply flex flex-col xs:w-full md:w-2/3;
+    }
+
+    & h2 {
+      @apply xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold;
+    }
+
+    & .rating {
+      @apply flex items-center gap-2
+    }
+
+    & .rating img {
+      @apply size-5 object-contain;
+    }
+
+    & .overview {
+      @apply text-lg text-justify xs:hidden lg:flex;
+    }
+  }
 }
 
 @utility text-gradient {

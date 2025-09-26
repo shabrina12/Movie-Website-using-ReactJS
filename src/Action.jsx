@@ -49,7 +49,7 @@ const Action = () => {
       }, []);
 
   return (
-     <div className='pt-16'>
+    <div className='pt-16'>
       <div className="relative w-full h-screen xs:-mt-[15%] md:-mt-[10%] xl:-mt-[5%]">
         <img className="w-full h-full object-cover" src='./action-bg.jpeg' alt='Action Banner'></img>
       </div>

@@ -9,6 +9,7 @@ import Scifi from './Scifi'
 import Comedy from './Comedy'
 import Romance from './Romance'
 import Animation from './Animation'
+import SearchResult from './SearchResult'
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/comedy" element={<Comedy />} />
         <Route path="/romance" element={<Romance />} />
         <Route path="/animation" element={<Animation />} />
+        <Route path="/search" element={<SearchResult />} />
       </Routes>
       <Footer />
     </Router>
