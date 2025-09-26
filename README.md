@@ -27,7 +27,7 @@ This project is still in progress. I built this movie website to refresh my know
 - Connecting to Appwrite as back end database 
 
 ### Screenshot
-![Design overview for Movie Website](./public/header.png)
+![Design overview for Movie Website](./public/homepage.png)
 
 ### Links
 The live site is deployed in vercel
@@ -58,7 +58,7 @@ To be continued..
 To be continued..
 
 ### Useful resources
-- [UI/UX Design Resources from Framer]([https://ui8.net/](https://framer.com/projects/HypeR-copy--ff5PH7sBjpAsOaSZcWqM-biFD6?duplicate=BkVLjcw3vgR8LFEg8UEK&node=augiA20Il))
+- [UI/UX Design Resources from Framer](https://framer.com/projects/HypeR-copy--ff5PH7sBjpAsOaSZcWqM-biFD6?duplicate=BkVLjcw3vgR8LFEg8UEK&node=augiA20Il)
 - [Tutorial React JS 19 Movie Application by JavaScript Mastery](https://www.youtube.com/watch?v=dCLhUialKPQ) 
 
 ## Acknowledgments
