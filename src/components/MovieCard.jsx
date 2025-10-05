@@ -1,8 +1,11 @@
-import React from 'react'
+import { useState } from "react";
+import DetailMovieCard from "./DetailMovieCard";
 
-const MovieCard = ({movie: {title, vote_average, backdrop_path, release_date, original_language}}) => {
+const MovieCard = ({movie: {title, backdrop_path, overview, vote_average}}) => {
+    const [show, setShow] = useState(false);
+
   return (
-    <div className='movie-card'>
+    <div className='movie-card' onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
         <img 
             src={backdrop_path ? 
                 `https://image.tmdb.org/t/p/w500/${backdrop_path}` : '/no-movie.png'} 
@@ -24,6 +27,10 @@ const MovieCard = ({movie: {title, vote_average, backdrop_path, release_date, or
                 <p className='year'>{release_date ? release_date.split('-')[0] : 'N/A'}</p> */}
             </div>
         </div>
+
+        {show && (
+            <DetailMovieCard title={title} overview={overview} vote_average={vote_average} backdrop_path={backdrop_path} />
+        )}
     </div>
   )
 }
