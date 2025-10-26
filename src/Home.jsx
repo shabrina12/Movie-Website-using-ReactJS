@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Spinner from './components/Spinner.jsx';
 import MovieCard from './components/MovieCard.jsx';
 //import { useDebounce } from 'react-use';
@@ -24,24 +24,22 @@ const API_OPTIONS = {
 }
 
 const Home = () => {
-  const [errorMessage, setErrorMessage] = useState('');
+  //const [errorMessage, setErrorMessage] = useState('');
   const [movieList, setMovieList] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  //const [debounceSearchTerm, setDebounceSearchTerm] = useState('');
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const swiperRef = useRef(null);
 
-  //Debounce the search term to prevent making too many API requests by waiting for the user to stop typing for 500ms
-  //useDebounce(() => setDebounceSearchTerm(searchTerm), 500, [searchTerm]); 
-
-  const fetchMovies = async(query = '') => {
+  const fetchMovies = async(query = '', pageNumber) => {
     setIsLoading(true);
-    setErrorMessage('');
+    //setErrorMessage('');
 
     try {
       const endpoint = query
         ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${pageNumber}`;
       
       const response = await fetch(endpoint, API_OPTIONS);
 
@@ -50,21 +48,24 @@ const Home = () => {
       }
 
       const data = await response.json();
+      const moviesWithPoster = data.results.filter(movie => movie.backdrop_path);
       
       if(data.Response === 'False') {
-        setErrorMessage(data.Error || 'Failed to fetch movies');
+        //setErrorMessage(data.Error || 'Failed to fetch movies');
         setMovieList([]);
         return;
       }
 
-      setMovieList(data.results || []);
+      //setMovieList(data.results || []);
+      setMovieList((prevMovies) => [...prevMovies, ...moviesWithPoster]);
+      setHasMore(data.page < data.total_pages);
 
-      if(query && data.results.length > 0) {
-        await updateSearchCount(query, data.results[0]);
+      if(query && moviesWithPoster.results.length > 0) {
+        await updateSearchCount(query, moviesWithPoster[0]);
       }
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
-      setErrorMessage('Error fetching movies. Please try again later');
+      //setErrorMessage('Error fetching movies. Please try again later');
     } finally {
       setIsLoading(false);
     }
@@ -82,13 +83,19 @@ const Home = () => {
 
   //rendering everytime the user search for a movie
   useEffect(() => {
-    fetchMovies();
-  }, []);
+    fetchMovies(page);
+  }, [page]);
 
   //rendering once when load the first time
   useEffect(() => {
     loadTrendingMovies();
   }, []);
+
+  const handleLoadMore = () => {
+    if(!isLoading && hasMore) {
+      setPage((prev) => prev + 1);
+    }
+  };
 
   const slides = [
     {
@@ -167,18 +174,31 @@ const Home = () => {
         <section className='all-movies'>
           <h2 className='mb-6'>All Movies</h2>
 
-          {isLoading ? (
+          {/* {isLoading ? (
             <Spinner />
           ) : errorMessage ? (
             <p className='text-red-500'>{errorMessage}</p>
-          ) : (
-            <ul>
-            {movieList.map((movie) => (
+          ) : ( */}
+           <ul>
+            {movieList.map((movie,) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
             </ul>
-            )}
+          {/* )}  */}
         </section>
+
+        <div className='flex justify-center'>
+        {hasMore && !isLoading && (
+          <button className='my-6 text-gray-200 text-lg py-2 rounded-4xl bg-red-950 xs:w-[40%] md:w-[30%] lg:w-[20%] xl:w-[12%] cursor-pointer' onClick={handleLoadMore}>Load More</button>
+        )}
+        </div>
+       
+        {isLoading && <p className="my-6 text-gray-200 text-lg text-center">Load more movies...</p>}
+        
+        {/* End of List */}
+        {!hasMore && !isLoading && (
+          <p className="my-6 text-center text-gray-400 text-lg">No more movies 🎬</p>
+        )}
       </div>  
     </main>
   )
