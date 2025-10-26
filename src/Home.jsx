@@ -81,9 +81,15 @@ const Home = () => {
     }
   }
 
-  //rendering everytime the user search for a movie
   useEffect(() => {
-    fetchMovies(page);
+    let ignore = false; //Flag to prevent updates after unmount
+
+    const load = async () => {
+      if (!ignore) await fetchMovies(page); //Only fetch if component is still active
+    };
+
+    load();
+    return () => { ignore = true }; //ensures the latest request wins and prevents weird race conditions.
   }, [page]);
 
   //rendering once when load the first time
