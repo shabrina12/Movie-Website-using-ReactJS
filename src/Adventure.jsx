@@ -15,10 +15,15 @@ const API_OPTIONS = {
 
 function Adventure() {
     const [adventureMovies, setAdventureMovies] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
-    const fetchAdventureMovies = async() => {
+    const fetchAdventureMovies = async(pageNumber) => {
+      setIsLoading(true);
+
       try {
-        const endpoint = `${API_BASE_URL}/discover/movie?with_genres=12&sort_by=popularity.desc`;
+        const endpoint = `${API_BASE_URL}/discover/movie?with_genres=12&sort_by=popularity.desc&page=${pageNumber}`;
         
         const response = await fetch(endpoint, API_OPTIONS);
 
@@ -34,19 +39,34 @@ function Adventure() {
           return;
         }
 
-        setAdventureMovies(data.results || []);
+        //setAdventureMovies(data.results || []);
+        setAdventureMovies((prevMovies) => [...prevMovies, ...data.results]);
+        setHasMore(data.page < data.total_pages);
         console.log("adventure movie list: ", data.results); 
       } catch (error) {
         console.log('Erro fetching adventure movie list: ', error);
       } finally {
         console.log('finish');
-        //setIsLoading(false);
+        setIsLoading(false);
       }
     }
 
     useEffect(() => {
-      fetchAdventureMovies();
-    }, []);
+      let ignore = false;
+
+      const load = async() => {
+        if(!ignore) await fetchAdventureMovies(page);
+      }
+
+      load();
+      return() => { ignore = true };
+    }, [page]);
+
+    const handleLoadMore = () => {
+      if(hasMore) {
+        setPage((prev) => prev + 1);
+      }
+    };
 
     return (
       <div className='pt-16'>
@@ -67,6 +87,20 @@ function Adventure() {
             ))}
           </ul>
         </section>
+ 
+        <div className='flex justify-center'>
+        {hasMore && !isLoading && (
+          <button className='my-6 text-gray-200 text-lg py-2 rounded-4xl bg-red-950 xs:w-[40%] md:w-[30%] lg:w-[20%] xl:w-[12%] cursor-pointer' onClick={handleLoadMore}>Load More</button>
+        )}
+        </div>
+
+        {isLoading && <p className="my-6 text-gray-200 text-lg text-center">Load more movies...</p>}
+        
+      
+        {/* End of List */}
+        {!hasMore && !isLoading && (
+          <p className="my-6 text-center text-gray-400 text-lg">No more movies 🎬</p>
+        )}
       </div>
       </div>
     )

@@ -13,40 +13,60 @@ const API_OPTIONS = {
   }
 }
 const Scifi = () => {
-const [scifiMovies, setScifiMovies] = useState([]);
+  const [scifiMovies, setScifiMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-    const fetchScifiMovies = async() => {
-      try {
-        const endpoint = `${API_BASE_URL}/discover/movie?with_genres=878&sort_by=popularity.desc`;
+  const fetchScifiMovies = async(pageNumber) => {
+    setIsLoading(true);
+
+    try {
+      const endpoint = `${API_BASE_URL}/discover/movie?with_genres=878&sort_by=popularity.desc&page=${pageNumber}`;
         
-        const response = await fetch(endpoint, API_OPTIONS);
+      const response = await fetch(endpoint, API_OPTIONS);
 
-        if(!response.ok) {
-          throw new Error('Failed to fetch movies');
-        }
-
-        const data = await response.json();
-
-        if(data.Response === 'False') {
-          console.log('Failed to fetch scifi movies');
-          setScifiMovies([]);
-          return;
-        }
-
-        setScifiMovies(data.results || []);
-        console.log("scifi movie list: ", data.results); 
-      } catch (error) {
-        console.log('Erro fetching scifi movie list: ', error);
-      } finally {
-        console.log('finish');
-        //setIsLoading(false);
+      if(!response.ok) {
+        throw new Error('Failed to fetch movies');
       }
+
+      const data = await response.json();
+
+      if(data.Response === 'False') {
+        console.log('Failed to fetch scifi movies');
+        setScifiMovies([]);
+        return;
+      }
+
+      //setScifiMovies(data.results || []);
+      setScifiMovies((prevMovies) => [...prevMovies, ...data.results]);
+      setHasMore(data.page < data.total_pages);
+      console.log("scifi movie list: ", data.results); 
+    } catch (error) {
+      console.log('Erro fetching scifi movie list: ', error);
+    } finally {
+      console.log('finish');
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    let ignore = false;
+
+    const load = async() => {
+      if(!ignore) await fetchScifiMovies(page);
     }
 
-    useEffect(() => {
-      fetchScifiMovies();
-    }, []);
+    load();
+    return() => { ignore = true };
+  }, [page]);
 
+
+  const handleLoadMore = () => {
+    if(hasMore) {
+      setPage((prev) => prev + 1);
+    }
+  };
 
   return (
     <div className='pt-16'>
@@ -67,6 +87,19 @@ const [scifiMovies, setScifiMovies] = useState([]);
             ))}
           </ul>
         </section>
+
+        <div className='flex justify-center'>
+        {hasMore && !isLoading && (
+          <button className='my-6 text-gray-200 text-lg py-2 rounded-4xl bg-red-950 xs:w-[40%] md:w-[30%] lg:w-[20%] xl:w-[12%] cursor-pointer' onClick={handleLoadMore}>Load More</button>
+        )}
+        </div>
+
+        {isLoading && <p className="my-6 text-gray-200 text-lg text-center">Load more movies...</p>}
+      
+        {/* End of List */}
+        {!hasMore && !isLoading && (
+          <p className="my-6 text-center text-gray-400 text-lg">No more movies 🎬</p>
+        )}
       </div>
       </div>
   )
