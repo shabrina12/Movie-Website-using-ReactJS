@@ -1,7 +1,7 @@
 import React from 'react'
 const DetailMovieCard = ({title, overview, vote_average, backdrop_path}) => {
   return (
-        <div className="fixed xs:top-[30%] md:top-[20%] xl:top-[15%] left-1/2 -translate-x-1/2 flex flex-col items-center justify-center xs:px-4 md:px-8 lg:px-12 rounded-lg xs:w-100 xs:h-90 md:w-140 md:h-120 lg:w-180 lg:h-116 xl:w-190 xl:h-120 text-center z-60">
+        <div className="fixed xs:top-[30%] md:top-[20%] xl:top-[17%] left-1/2 -translate-x-1/2 flex flex-col items-center justify-center xs:px-4 md:px-8 lg:px-12 rounded-lg xs:w-100 xs:h-90 md:w-140 md:h-120 lg:w-180 lg:h-116 xl:w-190 xl:h-110 text-center z-60">
             {/* Background image */}
             <img
               src={backdrop_path ? 
